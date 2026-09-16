@@ -1,0 +1,1093 @@
+{
+  "scriptUtil": [
+    {
+      "name": "executeScriptService",
+      "brief": "调用对象模板的内置服务或用户自定义的服务",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "objName",
+              "type": "String",
+              "required": true,
+              "desc": "定位模板或实例，'namespace.templateName' 或 'namespace.templateName/instanceName'"
+            },
+            {
+              "name": "serviceName",
+              "type": "String",
+              "required": true,
+              "desc": "服务名，格式「服务命名空间+服务别名」，后台对象模板中可查询"
+            },
+            {
+              "name": "params",
+              "type": "Object",
+              "required": false,
+              "desc": "服务的入参，需关注服务自身的参数配置"
+            },
+            {
+              "name": "version",
+              "type": "String",
+              "required": false,
+              "desc": "版本号，V2.80.01.02 及之后传 'V2'"
+            },
+            {
+              "name": "cb",
+              "type": "Function",
+              "required": false,
+              "desc": "回调函数"
+            }
+          ]
+        }
+      ],
+      "example": "// 调用模板下服务\nvar objName = 'namespace.templateName';\n// 调用实体模板下对象实例中的服务\nvar objName = 'namespace.templateName/instanceName';\nscriptUtil.executeScriptService({\n  objName, // 模板 或者 实例\n  serviceName: 'namespace.querySQLExec', // 服务的命名空间+服务别名\n  params: {\n    // 开发者需要关注后台服务的参数\n  },\n  version: 'V2',\n  cb: function (res) {\n    console.log('res', res);\n  }\n});"
+    },
+    {
+      "name": "getRequestUrl",
+      "brief": "获取 url 中 \"?\" 符后的字串，返回 Object",
+      "example": "// 网页地址为 https://www.baidu.com?id=123&code=456\nvar data = scriptUtil.getRequestUrl();\nconsole.log(data);\n// { id: 123, code: 456 }"
+    },
+    {
+      "name": "getTimeZone",
+      "brief": "获取当前时区，东八区为 -8，返回 Object",
+      "example": "// 东八区为 -8\nvar Offset = scriptUtil.getTimeZone();\nconsole.log(Offset);"
+    },
+    {
+      "name": "reload",
+      "brief": "延时刷新当前页面",
+      "params": [
+        {
+          "name": "time",
+          "type": "Number",
+          "required": true,
+          "desc": "延时时间，单位为毫秒"
+        }
+      ],
+      "example": "// 50ms 后刷新当前页面\nscriptUtil.reload(50);"
+    },
+    {
+      "name": "refreshWorkflow",
+      "brief": "刷新工作流",
+      "example": "scriptUtil.refreshWorkflow();"
+    },
+    {
+      "name": "copy",
+      "brief": "将数据复制到剪切板",
+      "params": [
+        {
+          "name": "data",
+          "type": "Any",
+          "required": true,
+          "desc": "要复制到剪切板的数据"
+        }
+      ],
+      "example": "scriptUtil.copy(any);"
+    },
+    {
+      "name": "request",
+      "brief": "调用第三方的服务或 supOS 的 openAPI 接口，返回 Promise",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "请求地址"
+        },
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "入参配置",
+          "fields": [
+            {
+              "name": "method",
+              "type": "String",
+              "required": false,
+              "desc": "请求方式，可选 POST / GET / DELETE / PUT"
+            },
+            {
+              "name": "body",
+              "type": "Object",
+              "required": false,
+              "desc": "请求入参"
+            },
+            {
+              "name": "headers",
+              "type": "Object",
+              "required": false,
+              "desc": "请求头"
+            }
+          ]
+        }
+      ],
+      "example": "var url = '/api/openapi/notification/v1/message';\nvar param = {\n  method: 'POST', // 请求类型，可选 GET、POST、PUT、DELETE\n  body: {}, // 非必填\n  headers: {} // 非必填\n};\nscriptUtil.request(url, param).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "registerReactDom",
+      "brief": "在可编程组件中注册自身为一个 ReactDom，可供外部拖拽组件调用其自身方法",
+      "params": [
+        {
+          "name": "component",
+          "type": "Component",
+          "required": true,
+          "desc": "组件实例"
+        },
+        {
+          "name": "props",
+          "type": "Object",
+          "required": true,
+          "desc": "组件 props"
+        }
+      ],
+      "example": "scriptUtil.registerReactDom(this, this.props);"
+    },
+    {
+      "name": "logoutReactDom",
+      "brief": "注销自身的 ReactDom 实例注册，一般在 componentWillUnmount 生命周期调用以释放内存",
+      "params": [
+        {
+          "name": "component",
+          "type": "Component",
+          "required": true,
+          "desc": "组件实例"
+        },
+        {
+          "name": "props",
+          "type": "Object",
+          "required": true,
+          "desc": "组件 props"
+        }
+      ],
+      "example": "scriptUtil.logoutReactDom(this, this.props);"
+    },
+    {
+      "name": "getRegisterReactDom",
+      "brief": "获取已注册组件实例，之后可调用组件内置方法",
+      "params": [
+        {
+          "name": "componentId",
+          "type": "String",
+          "required": true,
+          "desc": "组件 Id"
+        }
+      ],
+      "example": "var reactInstance = scriptUtil.getRegisterReactDom('htdiv-xxxx');\nreactInstance.getValue();"
+    },
+    {
+      "name": "getFormData",
+      "brief": "获取组件的值，用于表单提交一次性获取页面表单数据",
+      "params": [
+        {
+          "name": "componentName",
+          "type": "Array",
+          "required": false,
+          "desc": "组件名称数组"
+        }
+      ],
+      "example": "scriptUtil.getFormData(['title', 'name', 'age']);"
+    },
+    {
+      "name": "setFormData",
+      "brief": "设置组件的值，用于表单回填，一次性修改页面表单数据",
+      "params": [
+        {
+          "name": "data",
+          "type": "Object",
+          "required": true,
+          "desc": "{组件名称: 组件值}"
+        }
+      ],
+      "example": "scriptUtil.setFormData({ title: '我的测试数据' });"
+    },
+    {
+      "name": "submitDefaultValue",
+      "brief": "绑定表单组件联动值，可用于代码触发自带表格列表查询",
+      "params": [
+        {
+          "name": "component",
+          "type": "Component",
+          "required": true,
+          "desc": "触发的表单组件实例"
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "required": true,
+          "desc": "触发的表单组件实例待设置的值"
+        },
+        {
+          "name": "tag",
+          "type": "Integer",
+          "required": true,
+          "desc": "1 自动提交 / 0 手动提交"
+        }
+      ],
+      "note": [
+        "只有设置页面的联动方式为自动时，tag=1 自动提交才会生效"
+      ],
+      "example": "const component = scriptUtil.getRegisterReactDom('ctrlId');\nscriptUtil.submitDefaultValue(component, '查询的值', 1);"
+    },
+    {
+      "name": "Alert",
+      "brief": "弹窗，有确定和取消按钮",
+      "params": [
+        {
+          "name": "message",
+          "type": "String",
+          "required": true,
+          "desc": "提示内容"
+        },
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": false,
+          "desc": "点击确定时触发"
+        }
+      ],
+      "note": [
+        "只有点击确定的时候才会触发回调"
+      ],
+      "example": "scriptUtil.Alert('弹出成功', () => {\n  console.log('点击确定');\n});"
+    },
+    {
+      "name": "showMessage",
+      "brief": "顶部消息提示",
+      "params": [
+        {
+          "name": "message",
+          "type": "String",
+          "required": true,
+          "desc": "提示内容"
+        },
+        {
+          "name": "type",
+          "type": "String",
+          "required": true,
+          "desc": "消息类型，可选 success / warning / info / error"
+        }
+      ],
+      "example": "scriptUtil.showMessage('Message', 'success');"
+    },
+    {
+      "name": "timestampFormat",
+      "brief": "时间戳格式化为时间字符串，返回 String",
+      "params": [
+        {
+          "name": "timestamp",
+          "type": "Number",
+          "required": true,
+          "desc": "时间戳"
+        },
+        {
+          "name": "format",
+          "type": "String",
+          "required": true,
+          "desc": "格式化的格式，注意大小写"
+        }
+      ],
+      "example": "scriptUtil.timestampFormat(1587109353040, 'YYYY-MM-DD HH:mm:ss');\n// \"2020-04-17 15:42:33\""
+    },
+    {
+      "name": "timestampAntiFormat",
+      "brief": "时间字符串转为时间戳，返回 Number",
+      "params": [
+        {
+          "name": "time",
+          "type": "String",
+          "required": true,
+          "desc": "普通时间字符串"
+        }
+      ],
+      "example": "scriptUtil.timestampAntiFormat('2021-05-01 01:00:00');\n// 1619802000000"
+    },
+    {
+      "name": "regRexGroup",
+      "brief": "获取对应类型的正则验证规则，返回 RegExp",
+      "params": [
+        {
+          "name": "type",
+          "type": "String",
+          "required": true,
+          "desc": "正则类型",
+          "fields": [
+            {
+              "name": "mobilePhone",
+              "desc": "电话号码"
+            },
+            {
+              "name": "telephone",
+              "desc": "手机号"
+            },
+            {
+              "name": "zipCode",
+              "desc": "邮政编码"
+            },
+            {
+              "name": "idCard",
+              "desc": "身份证"
+            },
+            {
+              "name": "number",
+              "desc": "数字"
+            },
+            {
+              "name": "email",
+              "desc": "邮箱地址"
+            },
+            {
+              "name": "ip",
+              "desc": "ip 地址"
+            }
+          ]
+        }
+      ],
+      "example": "const reg = scriptUtil.regRexGroup('mobilePhone');\nreg.test('18866668888'); // true\nreg.test('1886666777'); // false"
+    },
+    {
+      "name": "isVaild",
+      "brief": "表单提交时校验组件值格式是否符合设置的规则，返回 Boolean；校验规则在表单元素属性区配置",
+      "params": [
+        {
+          "name": "componentIds",
+          "type": "Array",
+          "required": true,
+          "desc": "组件 Id 数组"
+        }
+      ],
+      "example": "scriptUtil.isVaild(['ctrlId1', 'ctrlId2', 'ctrlId3']);"
+    },
+    {
+      "name": "getFormatterMap",
+      "brief": "根据组件 id 获取组件的标题和名称，返回 {组件名称: 组件标题}",
+      "params": [
+        {
+          "name": "componentIds",
+          "type": "Array",
+          "required": true,
+          "desc": "组件 Id 数组"
+        }
+      ],
+      "example": "scriptUtil.getFormatterMap(['ctrlId1', 'ctrlId2', 'ctrlId3']);"
+    },
+    {
+      "name": "parseTableMap",
+      "brief": "替换数组内对象的 key，返回处理后的新数组",
+      "params": [
+        {
+          "name": "data",
+          "type": "Array",
+          "required": true,
+          "desc": "数据源"
+        },
+        {
+          "name": "map",
+          "type": "Object",
+          "required": true,
+          "desc": "key 映射关系"
+        },
+        {
+          "name": "index",
+          "type": "String",
+          "required": false,
+          "desc": "序号列名，默认为 '序号'"
+        }
+      ],
+      "example": "const data = [{ name: '张三', age: 123 }, { name: '李四', age: 33 }];\nconst map = { name: '姓名', age: '年龄' };\nconst result = scriptUtil.parseTableMap(data, map, '序号');\n// [{ \"序号\": 1, \"姓名\": \"张三\", \"年龄\": 123 }, ...]"
+    },
+    {
+      "name": "objKeySort",
+      "brief": "对对象的 key 进行排序，返回处理后的新对象",
+      "params": [
+        {
+          "name": "data",
+          "type": "Object",
+          "required": true,
+          "desc": "数据源"
+        },
+        {
+          "name": "sortKeys",
+          "type": "Array",
+          "required": true,
+          "desc": "需要排序的字段数组"
+        }
+      ],
+      "example": "const data = { name: '张三', age: 123, sex: '男' };\nconst sort = ['sex', 'age', 'name'];\nconst result = scriptUtil.objKeySort(data, sort);"
+    },
+    {
+      "name": "getEditRow",
+      "brief": "获取点击的表格行数据，返回 Object",
+      "params": [
+        {
+          "name": "ctrlId",
+          "type": "String",
+          "required": true,
+          "desc": "表格控件 id"
+        }
+      ],
+      "example": "var result = scriptUtil.getEditRow('表格控件id');"
+    },
+    {
+      "name": "JSONToExcelConvertor",
+      "brief": "用于数据导出 excel 表格",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "导出配置",
+          "fields": [
+            {
+              "name": "data",
+              "type": "Array",
+              "required": true,
+              "desc": "数据源"
+            },
+            {
+              "name": "dataTitle",
+              "type": "Array",
+              "required": true,
+              "desc": "表头文本"
+            },
+            {
+              "name": "dataKey",
+              "type": "Array",
+              "required": true,
+              "desc": "表格数据对应的字段，与 dataTitle 保持对应"
+            },
+            {
+              "name": "fileName",
+              "type": "String",
+              "required": true,
+              "desc": "导出的文件名"
+            },
+            {
+              "name": "extension",
+              "type": "String",
+              "required": true,
+              "desc": "导出的文件格式，可选 csv / xls"
+            }
+          ]
+        }
+      ],
+      "example": "scriptUtil.JSONToExcelConvertor({\n  data: [{ name: '小王', age: '12', sex: '女' }],\n  dataTitle: ['姓名', '年纪', '性别'],\n  dataKey: ['name', 'age', 'sex'],\n  fileName: '测试文件',\n  extension: 'xls'\n});"
+    },
+    {
+      "name": "closeCurrentPage",
+      "brief": "关闭当前窗口",
+      "example": "scriptUtil.closeCurrentPage();"
+    },
+    {
+      "name": "openPage",
+      "brief": "打开一个新的浏览器窗口或查找一个已命名的窗口",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "页面的 URL；不指定则打开一个新的空白窗口"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "required": true,
+          "desc": "target 属性或窗口名称",
+          "fields": [
+            {
+              "name": "_blank",
+              "desc": "URL 加载到一个新的窗口（默认）"
+            },
+            {
+              "name": "_parent",
+              "desc": "URL 加载到父框架"
+            },
+            {
+              "name": "_self",
+              "desc": "URL 替换当前页面"
+            },
+            {
+              "name": "_top",
+              "desc": "URL 替换任何可加载的框架集"
+            }
+          ]
+        },
+        {
+          "name": "dataKey",
+          "type": "Array",
+          "required": false,
+          "desc": "需要传递的数据字段"
+        },
+        {
+          "name": "feature",
+          "type": "Boolean",
+          "required": false,
+          "desc": "是否自定义配置"
+        },
+        {
+          "name": "openConfig",
+          "type": "String",
+          "required": false,
+          "desc": "窗口配置，JSON 字符串"
+        }
+      ],
+      "note": [
+        "只有设置 feature 为 true 时 openConfig 才会生效",
+        "openConfig 是一个 JSON 字符串"
+      ],
+      "example": "// 空页面\nscriptUtil.openPage('url', '_blank');\n\n// 替换当前页面\nscriptUtil.openPage('url', '_self');\n\n// 宽高配置的空页面\nscriptUtil.openPage('url', '_blank', true, '{\"height\":400,\"width\":400}');"
+    },
+    {
+      "name": "showModal",
+      "brief": "打开一个新的模态窗口",
+      "params": [
+        {
+          "name": "config",
+          "type": "String",
+          "required": true,
+          "desc": "弹窗配置，JSON 字符串",
+          "fields": [
+            {
+              "name": "modalVisible",
+              "desc": "模态窗是否可见"
+            },
+            {
+              "name": "modalWidth",
+              "desc": "模态窗宽度"
+            },
+            {
+              "name": "modalHeight",
+              "desc": "模态窗高度"
+            },
+            {
+              "name": "modalTitle",
+              "desc": "模态窗标题"
+            }
+          ]
+        }
+      ],
+      "example": "scriptUtil.showModal(`{\n\"width\":800,\n\"height\":600,\n\"padding\":{\"paddingTop\":24,\"paddingBottom\":24,\"paddingLeft\":24,\"paddingRight\":24},\n\"modelTitle\":\"标题\",\n\"needTitle\":true,\n\"fontSize\":14,\n\"fontColor\":\"#000000\",\n\"titleBgColor\":\"#ebeef5\",\n\"contentBgColor\":\"#ffffff\",\n\"modalIsCenter\":true,\n\"url\":\"/#/runtime-fullscreen/runtime-fullscreen/Page_401bf68ecd634809a7cf36fe44b73f59\",\n\"sandbox\":\"allow-forms allow-same-origin allow-scripts allow-popups allow-downloads\",\n\"isSandbox\":true\n}`);"
+    },
+    {
+      "name": "closeModal",
+      "brief": "关闭模态窗口",
+      "example": "scriptUtil.closeModal();"
+    },
+    {
+      "name": "closeParentModal",
+      "brief": "关闭父页面的模态窗口",
+      "note": [
+        "window.parent.scriptUtil 能获取到父页面的 scriptUtil 实例"
+      ],
+      "example": "window.parent.scriptUtil.closeModal();"
+    },
+    {
+      "name": "addDataTable",
+      "brief": "新增 DataTable 数据",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "dataSource",
+              "type": "String",
+              "required": true,
+              "desc": "表名，必须带命名空间"
+            },
+            {
+              "name": "properties",
+              "type": "Array",
+              "required": true,
+              "desc": "插入的数据，必须包装为数组格式，key 必须带命名空间"
+            },
+            {
+              "name": "version",
+              "type": "String",
+              "required": true,
+              "desc": "版本号，V2.80.01.02 及之后传 'V2'"
+            }
+          ]
+        },
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": true,
+          "desc": "回调函数，接受一个 result 参数"
+        }
+      ],
+      "note": [
+        "version 参数：2.8.1.2 之后版本兼容老版本 'V1'（不需要额外传入，已内置），新增方法都要加 'V2'",
+        "properties 参数：必须包装为数组格式，key 必须带命名空间",
+        "dataSource 参数：表名必须带命名空间，增删改查方法同此"
+      ],
+      "example": "const param = {\n  'namespace.p1': 'p1',\n  'namespace.p2': 'p2'\n};\nscriptUtil.addDataTable(\n  {\n    dataSource: 'namespace.tableName',\n    properties: [param], // 一定要是 Array 格式\n    version: 'V2'\n  },\n  function (res) {\n    console.log('res', res);\n  }\n);"
+    },
+    {
+      "name": "delDataTable",
+      "brief": "删除 DataTable 数据",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "dataSource",
+              "type": "String",
+              "required": true,
+              "desc": "表名，必须带命名空间"
+            },
+            {
+              "name": "properties",
+              "type": "Array",
+              "required": true,
+              "desc": "要删除的数据，必须包装为数组格式，且需要指定 id"
+            },
+            {
+              "name": "version",
+              "type": "String",
+              "required": true,
+              "desc": "版本号，V2.80.01.02 及之后传 'V2'"
+            }
+          ]
+        },
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": true,
+          "desc": "回调函数，接受一个 result 参数"
+        }
+      ],
+      "note": [
+        "只能根据 id 删除"
+      ],
+      "example": "const param = {\n  id: 'xxx' // 只能根据 id 删除\n};\nscriptUtil.delDataTable(\n  {\n    dataSource: 'namespace.tableName',\n    properties: [param], // 一定要是 Array 格式\n    version: 'V2'\n  },\n  function (res) {\n    console.log('res', res);\n  }\n);"
+    },
+    {
+      "name": "updateDataTable",
+      "brief": "修改 DataTable 数据",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "dataSource",
+              "type": "String",
+              "required": true,
+              "desc": "表名，必须带命名空间"
+            },
+            {
+              "name": "properties",
+              "type": "Array",
+              "required": true,
+              "desc": "需要修改的参数，必须包装为数组格式"
+            },
+            {
+              "name": "keys",
+              "type": "Object",
+              "required": true,
+              "desc": "类似于 where 条件，key 必须带命名空间"
+            },
+            {
+              "name": "version",
+              "type": "String",
+              "required": true,
+              "desc": "版本号，V2.80.01.02 及之后传 'V2'"
+            }
+          ]
+        },
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": true,
+          "desc": "回调函数，接受一个 result 参数"
+        }
+      ],
+      "note": [
+        "keys 参数：必须带命名空间"
+      ],
+      "example": "// 修改条件：code 字段为 1623219467408\n// 修改结果：comDetailAdd（公司详细地址）为浙江省宁波市\nvar dataSource = 'supyoung_companyreg.company_reg';\nvar param = {\n  comDetailAdd: '浙江省宁波市' // 需要修改的字段\n};\nvar keys = {\n  'supyoung_companyreg.code': '1623219467408' // key 必须带命名空间\n};\nscriptUtil.updateDataTable(\n  {\n    dataSource,\n    properties: [param], // 一定要是 Array 格式\n    keys,\n    version: 'V2'\n  },\n  function (res) {\n    console.log('res', res);\n  }\n);"
+    },
+    {
+      "name": "queryDataTable",
+      "brief": "查询 DataTable 数据",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "dataSource",
+              "type": "String",
+              "required": true,
+              "desc": "表名，必须带命名空间"
+            },
+            {
+              "name": "filters",
+              "type": "Object",
+              "required": true,
+              "desc": "查询条件配置",
+              "fields": [
+                {
+                  "name": "fields",
+                  "type": "Array",
+                  "required": false,
+                  "desc": "列名数组，多列用 ',' 分割；不传或为空则查询全部列"
+                },
+                {
+                  "name": "order",
+                  "required": false,
+                  "desc": "排序，可多条件 [{ order: 'code', sort: 'desc' }]，sort 可选 desc 降序 / asc 升序"
+                },
+                {
+                  "name": "distinct",
+                  "required": false,
+                  "desc": "是否去重，默认 false，当 fields 不为空时有效"
+                },
+                {
+                  "name": "pageIndex",
+                  "required": false,
+                  "desc": "查询起始页，默认为 1"
+                },
+                {
+                  "name": "pageSize",
+                  "required": false,
+                  "desc": "查询页大小，默认为 50"
+                },
+                {
+                  "name": "自定义查询条件",
+                  "required": false,
+                  "desc": "并集，'%xxx%' 代表前后模糊查询；key 必须加命名空间"
+                }
+              ]
+            },
+            {
+              "name": "version",
+              "type": "String",
+              "required": true,
+              "desc": "版本号，V2.80.01.02 及之后传 'V2'"
+            }
+          ]
+        },
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": true,
+          "desc": "回调函数，接受一个 result 参数"
+        }
+      ],
+      "example": "var namespace = 'supyoung_companyreg';\nvar dataSource = namespace + '.company_reg';\nscriptUtil.queryDataTable(\n  {\n    dataSource,\n    filters: {\n      fields: ['desc'], // 查询指定字段\n      order: [\n        {\n          order: 'code', // 排序的字段\n          sort: 'desc' // desc 降序  asc 升序\n        }\n      ],\n      distinct: true,\n      pageIndex: 1,\n      pageSize: 5,\n      'supyoung_companyreg.company': '%xx%' // 查询公司名为 xx 的数据（一定要加上命名空间）\n    },\n    version: 'V2'\n  },\n  function (res) {\n    console.log('res', res);\n  }\n);"
+    },
+    {
+      "name": "callSqlFunction",
+      "brief": "调用「数据查询管理」中的 SQL 脚本，返回 Promise",
+      "params": [
+        {
+          "name": "config",
+          "type": "Object",
+          "required": true,
+          "desc": "基本配置",
+          "fields": [
+            {
+              "name": "name",
+              "type": "String",
+              "required": true,
+              "desc": "sql 的名称"
+            },
+            {
+              "name": "params",
+              "type": "Object",
+              "required": true,
+              "desc": "sql 的入参，无入参传 {}；分页查询默认入参 page（页码）、per_page（每页数量）"
+            },
+            {
+              "name": "enableTotal",
+              "type": "Boolean",
+              "required": false,
+              "desc": "查询语句分页情况下需要；true 返回分页数据，false 不返回"
+            }
+          ]
+        }
+      ],
+      "note": [
+        "callSqlFunction 在业务设计器 v2.00.02.00-C 以上版本提供"
+      ],
+      "example": "// 执行 sql 方法\nscriptUtil.callSqlFunction({\n  name: 'sqlName',\n  params: {\n    page: 1, // 分页参数：页码\n    per_page: 5 // 分页参数：每页数量\n    // 等其他 sql 需要的入参\n  },\n  enableTotal: false // true 支持查询分页\n}).then(function (res) {\n  console.log('then:res');\n});"
+    },
+    {
+      "name": "getUserInfo",
+      "brief": "获取用户信息",
+      "params": [
+        {
+          "name": "callback",
+          "type": "Function",
+          "required": false,
+          "desc": "回调函数，入参为当前用户信息"
+        }
+      ],
+      "example": "scriptUtil.getUserInfo(function (res) {\n  // res 为当前用户的信息\n  console.log('res', res);\n});"
+    },
+    {
+      "name": "getSessionUserInfo",
+      "brief": "从 sessionStorage 获取用户 session 信息，返回 Object",
+      "example": "scriptUtil.getSessionUserInfo();"
+    },
+    {
+      "name": "setAuthority",
+      "brief": "退出登录",
+      "example": "scriptUtil.setAuthority();"
+    }
+  ],
+  "$os.api": [
+    {
+      "name": "get",
+      "brief": "发起 GET 网络请求，返回 Promise",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "请求的 URL 地址"
+        },
+        {
+          "name": "headers",
+          "type": "Object",
+          "required": false,
+          "desc": "请求头"
+        }
+      ],
+      "example": "$os.api.get('/api/config/configInfo/global_setting_frentendFn').then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "post",
+      "brief": "发起 POST 网络请求，返回 Promise",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "请求的 URL 地址"
+        },
+        {
+          "name": "body",
+          "type": "Object",
+          "required": false,
+          "desc": "请求体"
+        },
+        {
+          "name": "headers",
+          "type": "Object",
+          "required": false,
+          "desc": "请求头"
+        }
+      ],
+      "example": "$os.api.post('/api/config/configInfo/global_setting_frentendFn', { 'context-length': 'json' }).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "put",
+      "brief": "发起 PUT 网络请求，返回 Promise",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "请求的 URL 地址"
+        },
+        {
+          "name": "body",
+          "type": "Object",
+          "required": false,
+          "desc": "请求体"
+        },
+        {
+          "name": "headers",
+          "type": "Object",
+          "required": false,
+          "desc": "请求头"
+        }
+      ],
+      "example": "$os.api.put('/api/xxx', { id: 1 }).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "delete",
+      "brief": "发起 DELETE 网络请求，返回 Promise",
+      "params": [
+        {
+          "name": "url",
+          "type": "String",
+          "required": true,
+          "desc": "请求的 URL 地址"
+        },
+        {
+          "name": "body",
+          "type": "Object",
+          "required": false,
+          "desc": "请求体"
+        },
+        {
+          "name": "headers",
+          "type": "Object",
+          "required": false,
+          "desc": "请求头"
+        }
+      ],
+      "example": "$os.api.delete('/api/xxx', { id: 1 }).then((res) => {\n  console.log(res);\n});"
+    }
+  ],
+  "$os": [
+    {
+      "name": "dataSave",
+      "brief": "获取页面中的表单控件值，插入到表单模板中，返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，格式「命名空间.模板别名」"
+        },
+        {
+          "name": "additionalData",
+          "type": "Object",
+          "required": false,
+          "desc": "额外数据，用于插入附加的数据，默认为 {}"
+        }
+      ],
+      "note": [
+        "自动获取模板所有字段，并取同名页面组件的值一并存入"
+      ],
+      "example": "// additionalData { code: 123, name: '张三' }，和页面表单组件值一起，存入到表单模板里面\n$os.dataSave(template, additionalData).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "listSave",
+      "brief": "批量保存数据至表单模板，返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，格式「命名空间.模板别名」"
+        },
+        {
+          "name": "data",
+          "type": "Array",
+          "required": true,
+          "desc": "数据列表，如 [{ name: '员工A', code: '001' }, ...]"
+        }
+      ],
+      "example": "$os.listSave(template, data).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "dom",
+      "brief": "通过组件 id 或组件名称获取组件实例，调用对应组件的内部方法",
+      "params": [
+        {
+          "name": "instanceId",
+          "type": "String",
+          "required": true,
+          "desc": "组件 id 或者组件名称"
+        }
+      ],
+      "example": "$os.dom('ctrlId').getValue();"
+    },
+    {
+      "name": "dataDelete",
+      "brief": "链式调用删除表单模板中数据，链尾 .where() 返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，格式「命名空间.模板别名」"
+        }
+      ],
+      "fields": [
+        {
+          "name": "where",
+          "params": "condition: String | Object",
+          "desc": "设置删除条件；只支持 =，不支持大于小于等条件"
+        }
+      ],
+      "example": "// 删除表单模板中 age 为 12、code 为 456 的数据\n$os.dataDelete(template).where('age = 12 and code = 456').then((res) => {\n  console.log(res);\n});\n\n$os.dataDelete(template).where({ age: 12, code: 456 }).then((res) => {\n  console.log(res);\n});"
+    },
+    {
+      "name": "dataUpdate",
+      "brief": "链式调用更新表单模板中的数据，链尾 .where() 返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，格式「命名空间.模板别名」"
+        }
+      ],
+      "fields": [
+        {
+          "name": "data",
+          "params": "updateData: Object",
+          "desc": "设置更新数据"
+        },
+        {
+          "name": "where",
+          "params": "condition: String | Object",
+          "desc": "设置查询条件并执行更新；只支持 =，不支持大于小于等条件"
+        }
+      ],
+      "example": "// 将 age 为 12、code 为 456 的数据的 name 字段值改成张三\n$os.dataUpdate(template)\n  .data({ name: '张三' })\n  .where('age = 12 and code = 456')\n  .then((res) => {\n    console.log(res);\n  });\n\n$os.dataUpdate(template)\n  .data({ name: '张三' })\n  .where({ age: 12, code: 456 })\n  .then((res) => {\n    console.log(res);\n  });"
+    },
+    {
+      "name": "dataQuery",
+      "brief": "链式调用查询表单模板中的数据，链尾 .where() 返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，格式「命名空间.模板别名」"
+        }
+      ],
+      "fields": [
+        {
+          "name": "where",
+          "params": "conditionStr: String",
+          "desc": "设置查询条件并执行查询；支持 sql 中的常用操作符"
+        }
+      ],
+      "example": "$os\n  .dataQuery(template)\n  .where('{age} > 12 and {isDel} <> 0 and {xx} = 123')\n  .then((res) => {\n    console.log(res);\n  });"
+    },
+    {
+      "name": "execService",
+      "brief": "执行服务调用，自动处理模板名称的格式转换，返回 Promise",
+      "params": [
+        {
+          "name": "template",
+          "type": "String",
+          "required": true,
+          "desc": "模板名称，「命名空间.模板别名」或「命名空间.物模板别名.实例别名」"
+        },
+        {
+          "name": "serviceName",
+          "type": "String",
+          "required": true,
+          "desc": "服务别名"
+        },
+        {
+          "name": "params",
+          "type": "Object",
+          "required": false,
+          "desc": "服务的入参，如 { code: 123 }"
+        }
+      ],
+      "example": "// 调用表单模板下的服务\n$os.execService('nameSpace.template', 'serviceName', params).then((res) => {\n  console.log(res);\n});\n\n// 调用物模板实例下的服务\n$os.execService('nameSpace.template.instance', 'serviceName', params).then((res) => {\n  console.log(res);\n});"
+    }
+  ]
+}

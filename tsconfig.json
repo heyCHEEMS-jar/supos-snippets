@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
-    "target": "esnext",
-    "lib": ["ESNext"],
+    "module": "node16",
+    "target": "es2022",
     "types": ["node", "mocha"],
+    "lib": ["ES2022"],
     "sourceMap": true,
     "rootDir": "src",
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUnusedParameters": true
-  }
+    "noUnusedParameters": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"]
 }

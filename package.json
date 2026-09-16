@@ -1,35 +1,67 @@
 {
-  "name": "supOS-vscode",
-  "displayName": "supOS-vscode",
-  "description": "",
+  "name": "supos-snippets",
+  "displayName": "SupOS Snippets",
   "version": "0.0.1",
+  "author": "heyCHEEMS",
+  "publisher": "heyCHEEMS",
+  "license": "ISC",
+  "keywords": [
+    "intellisense",
+    "completion",
+    "可编程组件"
+  ],
   "engines": {
     "vscode": "^1.137.0"
   },
   "categories": [
-    "Other"
+    "Snippets",
+    "Programming Languages"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "supOS-vscode.helloWorld",
-        "title": "Hello World"
+        "command": "supos-snippets.restart",
+        "title": "Restart"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/supos.json"
+      },
+      {
+        "language": "javascriptreact",
+        "path": "./snippets/supos.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/supos.json"
+      },
+      {
+        "language": "typescriptreact",
+        "path": "./snippets/supos.json"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run package",
-    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "vscode:prepublish": "pnpm package",
+    "compile": "pnpm check-types && pnpm lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "package": "pnpm check-types && pnpm lint && node esbuild.js --production",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "pretest": "pnpm compile-tests && pnpm compile && pnpm lint",
     "check-types": "tsc --noEmit",
+    "gen:snippets": "node scripts/gen-snippets.mjs",
     "lint": "eslint src",
     "test": "vscode-test"
   },

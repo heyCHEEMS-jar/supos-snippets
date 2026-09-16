@@ -11,7 +11,7 @@ export default [
 
     languageOptions: {
       parser: typescriptEslint.parser,
-      ecmaVersion: 2022,
+      ecmaVersion: '2022',
       sourceType: 'module'
     },
 
