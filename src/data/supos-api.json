@@ -182,7 +182,7 @@
       "params": [
         {
           "name": "componentName",
-          "type": "Array",
+          "type": "Array<String>",
           "required": false,
           "desc": "组件名称数组"
         }
@@ -352,7 +352,7 @@
       "params": [
         {
           "name": "componentIds",
-          "type": "Array",
+          "type": "Array<String>",
           "required": true,
           "desc": "组件 Id 数组"
         }
@@ -365,7 +365,7 @@
       "params": [
         {
           "name": "componentIds",
-          "type": "Array",
+          "type": "Array<String>",
           "required": true,
           "desc": "组件 Id 数组"
         }
@@ -378,7 +378,7 @@
       "params": [
         {
           "name": "data",
-          "type": "Array",
+          "type": "Array<Object>",
           "required": true,
           "desc": "数据源"
         },
@@ -409,7 +409,7 @@
         },
         {
           "name": "sortKeys",
-          "type": "Array",
+          "type": "Array<String>",
           "required": true,
           "desc": "需要排序的字段数组"
         }
@@ -441,19 +441,19 @@
           "fields": [
             {
               "name": "data",
-              "type": "Array",
+              "type": "Array<Object>",
               "required": true,
               "desc": "数据源"
             },
             {
               "name": "dataTitle",
-              "type": "Array",
+              "type": "Array<String>",
               "required": true,
               "desc": "表头文本"
             },
             {
               "name": "dataKey",
-              "type": "Array",
+              "type": "Array<String>",
               "required": true,
               "desc": "表格数据对应的字段，与 dataTitle 保持对应"
             },
@@ -515,7 +515,7 @@
         },
         {
           "name": "dataKey",
-          "type": "Array",
+          "type": "Array<String>",
           "required": false,
           "desc": "需要传递的数据字段"
         },
@@ -600,7 +600,7 @@
             },
             {
               "name": "properties",
-              "type": "Array",
+              "type": "Array<Object>",
               "required": true,
               "desc": "插入的数据，必须包装为数组格式，key 必须带命名空间"
             },
@@ -644,7 +644,7 @@
             },
             {
               "name": "properties",
-              "type": "Array",
+              "type": "Array<Object>",
               "required": true,
               "desc": "要删除的数据，必须包装为数组格式，且需要指定 id"
             },
@@ -686,7 +686,7 @@
             },
             {
               "name": "properties",
-              "type": "Array",
+              "type": "Array<Object>",
               "required": true,
               "desc": "需要修改的参数，必须包装为数组格式"
             },
@@ -740,7 +740,7 @@
               "fields": [
                 {
                   "name": "fields",
-                  "type": "Array",
+                  "type": "Array<String>",
                   "required": false,
                   "desc": "列名数组，多列用 ',' 分割；不传或为空则查询全部列"
                 },
@@ -979,7 +979,7 @@
         },
         {
           "name": "data",
-          "type": "Array",
+          "type": "Array<Object>",
           "required": true,
           "desc": "数据列表，如 [{ name: '员工A', code: '001' }, ...]"
         }

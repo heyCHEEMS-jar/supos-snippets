@@ -11,4 +11,6 @@ vsc-extension-quickstart.md
 **/eslint.config.mjs
 **/*.map
 **/*.ts
+!types/supos.d.ts
 **/.vscode-test.*
+

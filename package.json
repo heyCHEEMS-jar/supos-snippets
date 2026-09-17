@@ -27,6 +27,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "supos-snippets.generateTypes",
+        "title": "生成 supOS 类型声明 (supos.d.ts)"
+      },
+      {
         "command": "supos-snippets.restart",
         "title": "Restart"
       }
@@ -34,48 +38,51 @@
     "snippets": [
       {
         "language": "javascript",
-        "path": "./snippets/supos.json"
+        "path": "./snippets/supos.jsonc"
       },
       {
         "language": "javascriptreact",
-        "path": "./snippets/supos.json"
+        "path": "./snippets/supos.jsonc"
       },
       {
         "language": "typescript",
-        "path": "./snippets/supos.json"
+        "path": "./snippets/supos.jsonc"
       },
       {
         "language": "typescriptreact",
-        "path": "./snippets/supos.json"
+        "path": "./snippets/supos.jsonc"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "pnpm package",
-    "compile": "pnpm check-types && pnpm lint && node esbuild.js",
+    "compile": "pnpm gen && pnpm check-types && pnpm lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "pnpm check-types && pnpm lint && node esbuild.js --production",
+    "package": "pnpm gen && pnpm check-types && pnpm lint && node esbuild.js --production",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm compile-tests && pnpm compile && pnpm lint",
     "check-types": "tsc --noEmit",
+    "gen": "pnpm gen:snippets && pnpm gen:types",
     "gen:snippets": "node scripts/gen-snippets.mjs",
+    "gen:types": "node scripts/gen-types.mjs",
     "lint": "eslint src",
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.137.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
-    "typescript-eslint": "^8.61.1",
-    "eslint": "^10.5.0",
-    "esbuild": "^0.28.1",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^6.0.3",
+    "@types/vscode": "^1.137.0",
     "@vscode/test-cli": "^0.0.15",
-    "@vscode/test-electron": "^3.0.0"
+    "@vscode/test-electron": "^3.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
   },
   "overrides": {
     "diff": "^8.0.4",
