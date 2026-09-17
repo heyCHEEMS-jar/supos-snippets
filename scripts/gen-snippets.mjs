@@ -8,13 +8,13 @@ const data = JSON.parse(fs.readFileSync('src/data/supos-api.json', 'utf8'))
 // 防止运行时把\和$识别为转义字符
 const esc = (s) => s.replace(/\\/g, '\\\\').replace(/\$/g, '\\$')
 
-const prefixMap = { scriptUtil: 'os-', '$os.api': 'os-api-', $os: 'os-' }
+const prefixMap = { scriptUtil: ['os-', 'scriptUtil-'], '$os.api': 'os-api-', $os: 'os-' }
 
 const out = {}
 for (const [owner, apis] of Object.entries(data)) {
   for (const a of apis) {
     out[`${owner}.${a.name}`] = {
-      prefix: `${prefixMap[owner]}${a.name}`,
+      prefix: [prefixMap[owner]].flat().map((p) => p + a.name),
       body: esc(a.example).split('\n'),
       description: a.brief
     }

@@ -28,13 +28,26 @@
     "commands": [
       {
         "command": "supos-snippets.generateTypes",
-        "title": "生成 supOS 类型声明 (supos.d.ts)"
+        "title": "%command.generateTypes.title%",
+        "category": "SupOS Snippets"
       },
       {
         "command": "supos-snippets.restart",
-        "title": "Restart"
+        "title": "%command.restart.title%",
+        "category": "SupOS Snippets"
       }
     ],
+    "configuration": {
+      "title": "SupOS Snippets",
+      "properties": {
+        "suposSnippets.typesDir": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "%config.typesDir.description%"
+        }
+      }
+    },
     "snippets": [
       {
         "language": "javascript",
@@ -58,7 +71,7 @@
     "vscode:prepublish": "pnpm package",
     "compile": "pnpm gen && pnpm check-types && pnpm lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
+    "watch:esbuild": "pnpm gen && node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
     "package": "pnpm gen && pnpm check-types && pnpm lint && node esbuild.js --production",
     "compile-tests": "tsc -p . --outDir out",

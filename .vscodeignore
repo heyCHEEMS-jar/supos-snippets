@@ -13,4 +13,5 @@ vsc-extension-quickstart.md
 **/*.ts
 !types/supos.d.ts
 **/.vscode-test.*
+scripts/**
 
