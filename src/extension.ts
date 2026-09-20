@@ -46,6 +46,7 @@ export async function activate(ctx: vscode.ExtensionContext) {
       vscode.window.showInformationMessage('已重新生成 supos.d.ts 并重启服务')
     })
   )
+  // 启动扩展时自动生成.d.ts（文件存在时跳过）
   for (const folder of vscode.workspace.workspaceFolders ?? []) {
     try {
       await vscode.workspace.fs.stat(targetUri(folder))
@@ -56,4 +57,3 @@ export async function activate(ctx: vscode.ExtensionContext) {
 }
 
 export function deactivate() {}
-
