@@ -1,6 +1,12 @@
 # SupOS Snippets
 
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![esbuild](https://img.shields.io/badge/esbuild-FFCF00?logo=esbuild&logoColor=black)
+![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)
+
 supOS 可编程组件 `scriptUtil` / `$os` API 的代码片段、补全提示与悬浮文档。
+
+---
 
 ## 安装
 
