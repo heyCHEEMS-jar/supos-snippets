@@ -22,7 +22,7 @@ async function generateTypes(ctx: vscode.ExtensionContext, folder: vscode.Worksp
 
 export async function activate(ctx: vscode.ExtensionContext) {
   ctx.subscriptions.push(
-    // generateTypes
+    // 生成.d.ts
     vscode.commands.registerCommand('supos-snippets.generateTypes', async () => {
       const folders = vscode.workspace.workspaceFolders ?? []
       if (!folders.length) {
@@ -34,7 +34,7 @@ export async function activate(ctx: vscode.ExtensionContext) {
     })
   )
   ctx.subscriptions.push(
-    // restart
+    // 重启扩展
     vscode.commands.registerCommand('supos-snippets.restart', async () => {
       const folders = vscode.workspace.workspaceFolders ?? []
       if (!folders.length) {
@@ -56,3 +56,4 @@ export async function activate(ctx: vscode.ExtensionContext) {
 }
 
 export function deactivate() {}
+

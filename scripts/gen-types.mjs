@@ -92,7 +92,7 @@ const out = `declare namespace supos {${interfaceOut ? `\n${interfaceOut}` : ''}
   api: OsApi // $os 是基于 scriptUtil 二次封装的 ${osOut}}
 }
 
-// 补全靠这两个全局值声明，只有上面的 interface 是补不出来的
+// 全局声明
 declare const scriptUtil: supos.ScriptUtil
 declare const $os: supos.Os`
 
